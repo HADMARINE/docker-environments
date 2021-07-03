@@ -13,7 +13,7 @@ RUN apt -y install nodejs
 RUN npm i -g yarn
 RUN update-locale
 # RUN useradd -ms /bin/zsh ${USERNAME}
-RUN adduser --disabled-password --gecos "" ${USERNAME}
+RUN adduser --shell /bin/zsh --disabled-password --gecos "" ${USERNAME}
 RUN adduser ${USERNAME} sudo
 RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
