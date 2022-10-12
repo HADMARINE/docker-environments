@@ -10,12 +10,12 @@ RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 RUN ln -snf /usr/share/zoneinfo/${TIMEZONE} /etc/localtime && echo ${TIMEZONE} > /etc/timezone
 RUN apt -y update
 RUN apt -y install build-essential curl gnupg git zsh nano language-pack-en sudo
-RUN curl -sL https://deb.nodesource.com/setup_16.x | bash -
-RUN apt -y install nodejs
-RUN npm i -g yarn
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash \
     && export NVM_DIR="$HOME/.nvm" && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" \
-    && nvm install node
+    && nvm install node \
+    && export NODE_PATH=$NVM_DIR/v$NODE_VERSION/lib/node_modules \
+    && export PATH=$NVM_DIR/v$NODE_VERSION/bin:$PATH \
+    && npm i -g yarn
 RUN update-locale
 RUN adduser --shell /bin/zsh --disabled-password --gecos "" ${USERNAME}
 RUN adduser ${USERNAME} sudo
