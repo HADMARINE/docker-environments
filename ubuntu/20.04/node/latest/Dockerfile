@@ -17,22 +17,15 @@ RUN adduser --shell /bin/zsh --disabled-password --gecos "" ${USERNAME}
 RUN adduser ${USERNAME} sudo
 RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
-RUN chsh -s ~/.zshrc
+# RUN chsh -s ~/.zshrc
 
 USER ${USERNAME}
 WORKDIR /home/${USERNAME}
 
-
-# ENV NVM_DIR /home/${USERNAME}/.nvm
-
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash \
-    # && export NVM_DIR="$HOME/.nvm" && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" \
-    # && [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion \
-    && source ~/.bashrc \
+    # && source ~/.bashrc \
     && source ~/.profile \
     && nvm install node \
-    # && export NODE_PATH=$NVM_DIR/v$NODE_VERSION/lib/node_modules \
-    # && export PATH=$NVM_DIR/v$NODE_VERSION/bin:$PATH \
     && npm i -g yarn
 
 # ZSH configuration
