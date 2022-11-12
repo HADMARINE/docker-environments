@@ -13,12 +13,6 @@ RUN ln -snf /usr/share/zoneinfo/${TIMEZONE} /etc/localtime && echo ${TIMEZONE} >
 RUN apt -y update
 RUN apt -y install build-essential curl gnupg git zsh nano language-pack-en sudo lsb-release ca-certificates
 RUN mkdir -p /etc/apt/keyrings
-RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
-RUN echo \
-  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
-  $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null
-RUN apt update
-RUN apt -y install docker-ce docker-ce-cli containerd.io docker-compose-plugin
 
 RUN update-locale
 RUN adduser --shell /bin/zsh --disabled-password --gecos "" ${USERNAME}
@@ -30,11 +24,20 @@ RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 USER ${USERNAME}
 WORKDIR /home/${USERNAME}
 
+
+RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+RUN echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+RUN sudo apt update
+RUN sudo apt -y install docker-ce docker-ce-cli containerd.io docker-compose-plugin
+
+
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash \
-    # && source ~/.bashrc \
-    && source ~/.profile \
-    && nvm install node \
-    && npm i -g yarn
+  # && source ~/.bashrc \
+  && source ~/.profile \
+  && nvm install node \
+  && npm i -g yarn
 
 
 # ZSH configuration
