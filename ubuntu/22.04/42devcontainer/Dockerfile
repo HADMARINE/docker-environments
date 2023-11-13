@@ -119,6 +119,4 @@ RUN git clone https://github.com/zsh-users/zsh-syntax-highlighting ${ZSH_CUSTOM:
 
 RUN curl -o ~/.zshrc https://gist.githubusercontent.com/HADMARINE/0fb134d56193d1b10be8d985e2e2f9a1/raw/d523a828dfc693ab8258c3f0571ce3c9faa984ea/.zshrc
 
-# SSH Keys
-
 CMD [ "zsh" ]
